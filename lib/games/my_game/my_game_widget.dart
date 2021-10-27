@@ -17,7 +17,7 @@ class MyGameWidget extends StatelessWidget {
       ),
       backgroundColor: Colors.greenAccent,
       body: GameWidget(
-        game: MyGame(height: size.height),
+        game: MyGame(height: size.height, width: size.width),
         backgroundBuilder: (BuildContext context) {
           return Center(
             child: Container(

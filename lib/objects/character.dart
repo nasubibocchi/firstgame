@@ -1,33 +1,29 @@
-import 'dart:ui';
-
 import 'package:flame/components.dart';
-import 'package:flame/palette.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flame/extensions.dart';
+import 'package:flame/input.dart';
 
-class Character extends PositionComponent {
-  static const speed = 10.0;
-  static const squareSize = 30.0;
+class Character extends SpriteComponent {
 
-  static Paint white = BasicPalette.white.paint();
-  static Paint red = BasicPalette.red.paint();
-  static Paint blue = BasicPalette.blue.paint();
-
-  @override
-  void render(Canvas c) {
-    super.render(c);
-
-    c.drawRect(size.toRect(), white);
+  Character({required Image image, required Vector2 size})
+      : super(
+          sprite: Sprite(image),
+          size: size,
+        ) {
+    anchor = Anchor.bottomCenter;
   }
 
   @override
-  void update(double dt) {
+  void onGameResize(Vector2 gameSize) {
+    position = Vector2(
+      gameSize.x /2,
+      gameSize.y /5.0 * 5.0,
+    );
+  }
+
+  @override
+  void update (double dt) {
     super.update(dt);
   }
 
-  @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    size.setValues(squareSize, squareSize);
-    anchor = Anchor.center;
-  }
 }
+
