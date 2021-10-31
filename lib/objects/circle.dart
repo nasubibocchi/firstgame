@@ -1,17 +1,15 @@
 import 'dart:ui';
-import 'dart:math';
-import 'dart:async' as async;
 
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/palette.dart';
 
-class Circle extends PositionComponent with HasGameRef, Hitbox, Collidable {
-  Circle() {
-    addHitbox(HitboxCircle());
+class MyCircle extends PositionComponent with HasGameRef, Hitbox, Collidable {
+  MyCircle() {
+    addHitbox(HitboxRectangle());
   }
 
-  static const speed = 10.0;
+  static const speed = 300.0;
   static const circleSize = 20.0;
 
   static Paint white = BasicPalette.white.paint();
@@ -23,33 +21,18 @@ class Circle extends PositionComponent with HasGameRef, Hitbox, Collidable {
     super.onLoad();
     size.setValues(circleSize, circleSize);
     anchor = Anchor.center;
-
-    Timer timer = Timer(1000);
-    timer.start();
-
-    ///1秒ごとに球をふらせる
-    if (timer.isRunning() == true) {
-      double myY = 0.0;
-      async.Timer.periodic(const Duration(milliseconds: 500), (timer) {
-        add(
-          Circle()
-            ..x = Random().nextDouble()
-            ..y = myY,
-        );
-      });
-    }
   }
 
   @override
   void render(Canvas c) {
     super.render(c);
-    c.drawCircle(Offset.zero, circleSize, red);
+    c.drawCircle(Offset.zero, circleSize, white);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    height -= speed;
+    height -= speed * dt;
   }
 
   @override

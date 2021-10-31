@@ -1,9 +1,12 @@
+import 'dart:math';
+import 'dart:async' as async;
+
 import 'package:firstgame/common_functions.dart';
 import 'package:firstgame/entities/direction.dart';
 import 'package:firstgame/objects/character.dart';
 import 'package:firstgame/objects/circle.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 
 class MyGame extends FlameGame
     with HasCollidables {
@@ -11,7 +14,7 @@ class MyGame extends FlameGame
   bool running = true;
 
   final Character character = Character();
-  final Circle circle = Circle();
+  final MyCircle circle = MyCircle();
   
   final commonFunctions = CommonFunctions();
 
@@ -26,12 +29,18 @@ class MyGame extends FlameGame
 
     //キャラを配置
     add(character);
-    add(circle);
-    
+    //1秒ごとに球をふらせる
+    double myY = 0.0;
+    async.Timer.periodic(const Duration(milliseconds: 800), (timer) {
+      add(
+        MyCircle()
+          ..x = Random().nextInt(500).toDouble()
+          ..y = myY,
+      );
+    });
+    // add(circle);
+
   }
-
-
-  
 
   // ///タップしたら
   // @override

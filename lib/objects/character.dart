@@ -2,14 +2,17 @@ import 'package:firstgame/entities/direction.dart';
 import 'package:firstgame/objects/circle.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/game.dart';
+import 'package:flame/geometry.dart';
 import 'package:flame/input.dart';
 
 class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
   Character()
       : super(
-          size: Vector2.all(100.0),
+          size: Vector2.all(80.0),
         ) {
-    anchor = Anchor.bottomCenter;
+    anchor = Anchor.center;
+    addHitbox(HitboxRectangle());
   }
 
   final double _playerSpeed = 300.0;
@@ -25,7 +28,7 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
     sprite = await gameRef.loadSprite('oct.png');
     position = Vector2(
       gameSize.x / 2,
-      gameSize.y / 5.0 * 5.0 + 10,
+      gameSize.y / 5.0 * 5.0 - 50,
     );
   }
 
@@ -38,31 +41,31 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
   }
 
   @override
-  void update(double dt) {
-    super.update(dt);
-    moveCharacter(dt);
+  void update(double delta) {
+    super.update(delta);
+    moveCharacter(delta);
   }
 
-  void moveCharacter(double dt) {
+  void moveCharacter(double delta) {
     switch (direction) {
       case Direction.up:
         if (canPlayerMoveUp()) {
-          moveUp(dt);
+          moveUp(delta);
         }
         break;
       case Direction.down:
         if (canPlayerMoveDown()) {
-          moveDown(dt);
+          moveDown(delta);
         }
         break;
       case Direction.left:
         if (canPlayerMoveLeft()) {
-          moveLeft(dt);
+          moveLeft(delta);
         }
         break;
       case Direction.right:
         if (canPlayerMoveRight()) {
-          moveRight(dt);
+          moveRight(delta);
         }
         break;
       case Direction.none:
@@ -70,17 +73,17 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
     }
   }
 
-  void moveUp (double dt) {
-    position.add(Vector2(0, dt * _playerSpeed));
+  void moveUp (double delta) {
+    position.add(Vector2(0, delta * _playerSpeed * (-1)));
   }
-  void moveDown (double dt) {
-    position.add(Vector2(0, dt * _playerSpeed * (-1)));
+  void moveDown (double delta) {
+    position.add(Vector2(0, delta * _playerSpeed));
   }
-  void moveLeft (double dt) {
-    position.add(Vector2(dt * _playerSpeed * (-1), 0));
+  void moveLeft (double delta) {
+    position.add(Vector2(delta * _playerSpeed * (-1), 0));
   }
-  void moveRight (double dt) {
-    position.add(Vector2(dt * _playerSpeed, 0));
+  void moveRight (double delta) {
+    position.add(Vector2(delta * _playerSpeed, 0));
   }
 
   ///あたり判定
@@ -92,7 +95,7 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
     //     _collisionDirection = direction;
     //   }
     // }
-    if (other is Circle) {
+    if (other is MyCircle) {
       if (!_hasCollided) {
         _hasCollided = true;
         isGameOver = true;

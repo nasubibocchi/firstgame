@@ -20,6 +20,8 @@ class _MyGameWidgetState extends State<MyGameWidget> {
 
   final commonFunctions = CommonFunctions();
 
+  bool _isGameOver = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +44,7 @@ class _MyGameWidgetState extends State<MyGameWidget> {
           },
         ),
         Align(
-          alignment: Alignment.bottomRight,
+          alignment: Alignment.topCenter,
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Joypad(onDirectionChanged: onJoypadDirectionChanged),
@@ -56,11 +58,16 @@ class _MyGameWidgetState extends State<MyGameWidget> {
     myGame.onJoypadDirectionChanged(direction);
   }
 
+
   @override
   Future<void> gameOver(BuildContext context) async {
     var count = 0;
+    _isGameOver = false;
 
-    if (character.isGameOver == true) {
+    if (character.isGameOver = true) {
+      setState(() {
+        _isGameOver = character.isGameOver;
+      });
       await commonFunctions.myShowDialog(
         context,
         'Game Over',
@@ -68,4 +75,5 @@ class _MyGameWidgetState extends State<MyGameWidget> {
       );
     }
   }
+
 }
