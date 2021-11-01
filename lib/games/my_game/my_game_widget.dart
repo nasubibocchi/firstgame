@@ -58,22 +58,4 @@ class _MyGameWidgetState extends State<MyGameWidget> {
     myGame.onJoypadDirectionChanged(direction);
   }
 
-
-  @override
-  Future<void> gameOver(BuildContext context) async {
-    var count = 0;
-    _isGameOver = false;
-
-    if (character.isGameOver = true) {
-      setState(() {
-        _isGameOver = character.isGameOver;
-      });
-      await commonFunctions.myShowDialog(
-        context,
-        'Game Over',
-        () => Navigator.popUntil(context, (route) => count++ >= 2),
-      );
-    }
-  }
-
 }

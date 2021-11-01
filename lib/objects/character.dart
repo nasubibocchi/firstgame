@@ -12,10 +12,10 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
           size: Vector2.all(80.0),
         ) {
     anchor = Anchor.center;
-    addHitbox(HitboxRectangle());
+    addHitbox(HitboxRectangle(relation: Vector2.all(0.8)));
   }
 
-  final double _playerSpeed = 300.0;
+  final double _playerSpeed = 150.0;
   Direction direction = Direction.none;
   Direction _collisionDirection = Direction.none;
   bool _hasCollided = false;
@@ -107,6 +107,7 @@ class Character extends SpriteComponent with HasGameRef, Hitbox, Collidable {
   @override
   void onCollisionEnd(Collidable other) {
     _hasCollided = false;
+    isGameOver = false;
   }
 
   ///動けるかどうかの判定

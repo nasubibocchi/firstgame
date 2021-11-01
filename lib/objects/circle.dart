@@ -6,11 +6,11 @@ import 'package:flame/palette.dart';
 
 class MyCircle extends PositionComponent with HasGameRef, Hitbox, Collidable {
   MyCircle() {
-    addHitbox(HitboxRectangle());
+    addHitbox(HitboxRectangle(relation: Vector2.all(0.8)));
   }
 
   static const speed = 300.0;
-  static const circleSize = 20.0;
+  static const circleSize = 30.0;
 
   static Paint white = BasicPalette.white.paint();
   static Paint red = BasicPalette.red.paint();
@@ -36,8 +36,9 @@ class MyCircle extends PositionComponent with HasGameRef, Hitbox, Collidable {
   }
 
   @override
-  void onRemove() {
-    super.onRemove();
-    removeAll(children);
+  void removeHitBox (HitboxShape shape) {
+    super.removeHitbox(shape);
+
   }
+  
 }
